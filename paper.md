@@ -1,7 +1,7 @@
 ---
 acronym: Caveat
 author: Tomas Knapen, PhD
-address: Vrije universiteit Amsterdam, Amsterdam, the Netherlands
+address: Spinoza Centre for Neuroimaging, KNAW and Vrije universiteit Amsterdam, Amsterdam, the Netherlands
 fontsize: 9.5pt
 documentclass: article
 mainfont: Minion Pro

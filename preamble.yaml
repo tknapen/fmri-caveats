@@ -1,0 +1,41 @@
+---
+acronym: Caveat
+author: Tomas Knapen, PhD
+address: Spinoza Centre for Neuroimaging, KNAW and Vrije universiteit Amsterdam, Amsterdam, the Netherlands
+fontsize: 9.5pt
+documentclass: article
+mainfont: Minion Pro
+mainfontoptions: Mapping=tex-text
+sansfont: Helvetica Neue
+sansfontoptions: Mapping=tex-text
+mathfont: Palatino
+mathfontoptions: Mapping=tex-text
+monofont: Geneva
+monofontoptions: Mapping=tex-text
+biblatex: true
+natbib: false
+biblio-style: nature
+citestyle: nature
+biblio-title: false
+bibliography: [lib/export_2023-3-16.bib]
+colorlinks: true
+toccolor: blue
+indent: true
+linestretch: 1.25
+linenumber: true
+numbersections: true
+papersize: a4
+tables: true
+euro: true
+leftmargin: 3.5cm
+rightmargin: 3.5cm
+topmargin: 2.5cm
+bottommargin: 2.5cm
+captionmargin: 5pt
+textfloatsep: 10pt
+fancyleft: T. Knapen
+fancyright: Learning fMRI from its Caveats
+abstract: false
+coverpagematerial: false
+jupyter: python3
+---

@@ -1,0 +1,85 @@
+---
+title: "fMRI by caveat"
+author: "Tomas Knapen"
+toc: true
+number-sections: false
+highlight-style: pygments
+format:
+  html:
+    code-fold: true
+  pdf:
+    geometry:
+        - top=30mm
+        - left=0mm
+  docx: default
+jupyter: python3
+---
+
+
+# Abstract
+
+_Imaging of human brain activations has revolutionized cognitve neuroscience, and fundamentally changed how the general public thinks about the mind. In recent years, the burgeoning growth of the field of functional magnetic resonance imaging has plateaued. The development of the field has not been gradual, but rather has been interpunctuated by sudden shifts in insight. These shifts have driven thinking and practices in the field forward. In many cases, these sudden shifts have been prompted by a realization that some caveat applies to the interpretation of results produced by current practices.
+I have found that when teaching fMRI these caveats provide a productive conceptual framework, that helps students understand the history of the field, but also its present limitations and promises. Therefore, this paper is structured as a list of caveats, ordered broadly according to both topic and historical order._
+
+::: {.callout-note}
+Note that this document doesn't aim to provide a full introduction into neuroimaging or its analysis. If you're interested in that, I recommend consulting the excellent [nipraxis](https://textbook.nipraxis.org/intro.html) website, or the [fmri handbook](https://sites.google.com/site/fmridataanalysis/home) by Russ Poldrack et al.
+:::
+
+# Introduction
+
+## Goal and Scope
+
+This document is intended as a corollary to a first-year graduate level introduction to neuroimaging in a cognitive neuroscience curriculum. Some caveats may also be applicable to other imaging modalities used in cognitive science, and perhaps other caveats apply in different fields also. Nonetheless, the strict focus here is on the use of fMRI to answer questions about the underpinnings of the mind in the brain.
+
+## Caveats Galore
+
+What is a caveat? One could say that it's short for "caveat emptor", a Latin phrase which means: "Buyer beware". It refers to the principle that "the buyer alone is responsible for checking the quality and suitability of goods before a purchase is made". Now, in everyday life we have legal consumer protection when we buy something. But in science, there is no such governmental oversight: we are the buyers of nature's knowledge, and no guarantee is given.
+
+So, a caveat is **"a warning or proviso of specific stipulations, conditions, or limitations"**. As a scientific field, we've had to learn these conditions and limitations the hard way, by making mistakes. We can learn a lot about a field by going through the mistakes that the field has made - to quote Niels Bohr: _"An expert is a person who has made all the mistakes that can be made in a very narrow field"_. Thus, learning a field through all its past mistakes is a very efficient way of becoming an expert. It's important to realize that when we explicitly identify these mistakes we don't do this to make fun of past scientists' stupidity. Rather, by focusing on mistakes and the caveats they've become we learn not just the field's subject matter, but also how it has tended to evolve as a collective human enterprise. This may allows us to learn strategies that help us avoid future mistakes.
+
+# Caveats
+
+## Imaging
+
+### MR Images are very different from photographs
+
+The universe doesn't care about us. It certainly hasn't structured itself such as to make sure that we can look inside living human brains using giant magnets. MRI, like most if not all measurements we do in science, relies on serendipitously discovered principles and often very contrived methods. We'll take what we can get in order to learn about the things we're interested in. Just as a left-field example, [we can measure precipitation using cell phone towers](https://www.economist.com/science-and-technology/2017/09/30/counting-raindrops-using-mobile-phone-towers) - the cell phone towers definitely weren't put there to measure precipitation. Similary for MRI, it's important to realize that our ability to image the human brain without opening it up rests on our understanding of electromagnetic physical principles and our electrical engineering prowess. This ability is the result of decades of development by some of the smartest people in the world, and the MRI machine is a marvel of our understanding and manipulation of super-low-level physical properties of matter.
+
+### The scanner can image many things. BOLD is just one of those things.
+
+Depending on how we use the scanner, or the 'sequence' that it runs, we get out different kinds of data. These can be images, but can also be NMR spectra that relate to the chemical composition of the thing in the scanner. If the outcome is an image, it can take many different forms. Depending on specific settings such as the repetition time, the echo time, and how we 'read out' the image, images can be sensitive to iron content, tissue perfusion, blood flow direction, nerve fiber bundle orientation, and many more things. In fMRI, we usually use a specific contrast called a T2* contrast, which is sensitive to -- among other things -- the level of oxygenation of the haemoglobin in the blood. But a T2* contrast image, like the T1-weighted image we usually associate with anatomical brain scans, is just an image of some property of the brain's tissues.
+
+{{< video figs/T2star_axial.mov
+title="a high-resolution T2*-weighted anatomical scan"
+loop=true
+width="400"
+height="400"
+align="right"
+>}}
+
+### Things in an MR image may not be where they appear to be
+
+Again depending on how the scanner constructs the image, it may be a faithful representation of the spatial relations inside the head, or the image may be (severely) warped or distorted. These distortions in the image are due to the fact that the homogeneity of the main magnetic field (B$_0$) is disturbed by strong changes in magnetic properties, such as the change from tissue to air. If our sequence is sensitive to these disturbances, our images will be distorted.
+
+## Interpreting the BOLD Response
+
+### The images of 'activation' we see in the press aren't images of neurons firing
+
+We often see blobs of 'activation' being reported, and the implicit idea is that this represents neurons firing in a living human brain. But the measurement that fMRI usually involves is much more indirect. First off, we are looking at a blood response. That is, our Blood-Oxygenation Level Dependent (BOLD) measurements reflect the ratio of non-paramagnetic oxygenated haemoglobin to paramagnetic deoxygenated haemoglobin. This ratio is altered by neural activity, surely, but it does so through a complex cascade of biological responses in several types of tissue -- not just the neurons, but also the astrocytes and cells in the vessel walls. Some important parts of this cascade are changes in cerebral blood volume (CBV), cerebral blood flow (CBF), and the rate of cerebral blood oxygen consumption (CMRO$_2$).
+
+### The shape of the BOLD response differs a lot across voxels, individuals, and age
+
+Our standard GLM analysis assumes that BOLD responses follow a stereotypical haemodynamic response function shape.
+
+
+## Statistical Inference
+
+
+##
+
+
+# Discussion
+
+
+
+

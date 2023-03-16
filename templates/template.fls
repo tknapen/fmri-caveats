@@ -1,0 +1,6 @@
+PWD /Users/knapen/Documents/grants/NWO_vici_2020/templates
+INPUT /usr/local/texlive/2019/texmf.cnf
+INPUT /usr/local/texlive/2019/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT /Users/knapen/Documents/grants/NWO_vici_2020/templates/template.latex
+OUTPUT /Users/knapen/Documents/grants/NWO_vici_2020/templates/template.log

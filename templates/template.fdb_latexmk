@@ -1,0 +1,14 @@
+# Fdb version 3
+["pdflatex"] 1587910106 "/Users/knapen/Documents/grants/NWO_vici_2020/templates/template.latex" "/Users/knapen/Documents/grants/NWO_vici_2020/templates/template.pdf" "template" 1587910106
+  "$documentclass$.cls" 0 -1 0 ""
+  "/Users/knapen/Documents/grants/NWO_vici_2020/templates/$documentclass$.cls" 0 -1 0 ""
+  "/Users/knapen/Documents/grants/NWO_vici_2020/templates/template.aux" 1587910106 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/knapen/Documents/grants/NWO_vici_2020/templates/template.latex" 1587910105 9918 c9e593ecbec9b15559ae5dd362faef9a ""
+  "/usr/local/texlive/2019/texmf-dist/web2c/texmf.cnf" 1577314212 39451 6c50cbbc48279cc2d67f72e32ca48ad5 ""
+  "/usr/local/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt" 1582745650 8259198 40d92c0a72b4696077521b468e35a748 ""
+  "/usr/local/texlive/2019/texmf.cnf" 1557341546 577 d150fef99ac436ad1156e86b0892f6ef ""
+  "template.latex" 1587910105 9918 c9e593ecbec9b15559ae5dd362faef9a ""
+  (generated)
+  "/Users/knapen/Documents/grants/NWO_vici_2020/templates/template.log"
+  "/Users/knapen/Documents/grants/NWO_vici_2020/templates/template.pdf"
+  "template.log"

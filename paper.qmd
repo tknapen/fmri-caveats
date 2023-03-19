@@ -4,6 +4,8 @@ author: "Tomas Knapen"
 toc: true
 number-sections: false
 highlight-style: pygments
+bibliography: lib/export_2023-3-16.bib
+csl: templates/nature.csl
 format:
   html:
     code-fold: true
@@ -41,13 +43,13 @@ So, a caveat is **"a warning or proviso of specific stipulations, conditions, or
 
 ## Imaging
 
-### MR Images are very different from photographs
+### Caveat I: MR Images are very different from photographs {#c1}
 
-The universe doesn't care about us. It certainly hasn't structured itself such as to make sure that we can look inside living human brains using giant magnets. MRI, like most if not all measurements we do in science, relies on serendipitously discovered principles and often very contrived methods. We'll take what we can get in order to learn about the things we're interested in. Just as a left-field example, [we can measure precipitation using cell phone towers](https://www.economist.com/science-and-technology/2017/09/30/counting-raindrops-using-mobile-phone-towers) - the cell phone towers definitely weren't put there to measure precipitation. Similary for MRI, it's important to realize that our ability to image the human brain without opening it up rests on our understanding of electromagnetic physical principles and our electrical engineering prowess. This ability is the result of decades of development by some of the smartest people in the world, and the MRI machine is a marvel of our understanding and manipulation of super-low-level physical properties of matter.
+The universe doesn't care about us. It certainly hasn't structured itself such as to make sure that we can look inside living human brains using giant magnets. MRI, like most if not all measurements we do in science, relies on serendipitously discovered principles and often very contrived methods. We'll take what we can get in order to learn about the things we're interested in. Just as a left-field example, [we can measure precipitation using cell phone towers](https://www.economist.com/science-and-technology/2017/09/30/counting-raindrops-using-mobile-phone-towers) - the cell phone towers definitely weren't put there to measure precipitation. Similary for MRI, it's important to realize that our ability to image the human brain without opening it up rests on our understanding of electromagnetic physical principles and our electrical engineering prowess. This ability is the result of decades of development by some of the smartest people in the world, and the MRI machine is a marvel of our understanding and manipulation of super-low-level physical properties of matter. So, it's important to realize that the brain images from an MR scanner aren't like the pictures taken by your phone, where photons fall on detectors to create an image similar to how our own retinae detect photons. Rather, MRI images are the result of an intricate process of construction through an thorough manipulation of low-level physical things.
 
-### The scanner can image many things. BOLD is just one of those things.
+### Caveat II: The scanner can image many things. BOLD is just one of those things. {#c2}
 
-Depending on how we use the scanner, or the 'sequence' that it runs, we get out different kinds of data. These can be images, but can also be NMR spectra that relate to the chemical composition of the thing in the scanner. If the outcome is an image, it can take many different forms. Depending on specific settings such as the repetition time, the echo time, and how we 'read out' the image, images can be sensitive to iron content, tissue perfusion, blood flow direction, nerve fiber bundle orientation, and many more things. In fMRI, we usually use a specific contrast called a T2* contrast, which is sensitive to -- among other things -- the level of oxygenation of the haemoglobin in the blood. But a T2* contrast image, like the T1-weighted image we usually associate with anatomical brain scans, is just an image of some property of the brain's tissues.
+Depending on how we use the scanner, or the 'sequence' that it runs, we get out different kinds of data. These can be images, but can also be NMR spectra that relate to the chemical composition of the thing in the magnet. If the outcome is an image, it can take many different forms. Depending on specific settings such as the repetition time, the echo time, and how we 'read out' the image, images can be sensitive to iron content, tissue perfusion, blood flow direction, nerve fiber bundle orientation, and many more things. In fMRI, we usually use a specific contrast called a T2* contrast, which is sensitive to -- among other things -- the level of oxygenation of the haemoglobin in the blood. But a T2* contrast image, like the T1-weighted image we usually associate with anatomical brain scans, is just an image of some complex set of properties of the brain's tissues. This means we can also make anatomical images using the same contrast:
 
 {{< video figs/T2star_axial.mov
 title="a high-resolution T2*-weighted anatomical scan"
@@ -57,29 +59,66 @@ height="400"
 align="right"
 >}}
 
-### Things in an MR image may not be where they appear to be
+### Caveat III: Things in an MR image may not be where they appear to be. {#c3}
 
-Again depending on how the scanner constructs the image, it may be a faithful representation of the spatial relations inside the head, or the image may be (severely) warped or distorted. These distortions in the image are due to the fact that the homogeneity of the main magnetic field (B$_0$) is disturbed by strong changes in magnetic properties, such as the change from tissue to air. If our sequence is sensitive to these disturbances, our images will be distorted.
+The scanner constructs the image by playing around with magnetic moments and recording radio frequency signals; _construction_ being the crucial term here, as outlined in Caveat I. Again depending on how the scanner constructs the image, it may be a faithful representation of the spatial relations inside the head, or the image may be (severely) warped or distorted. These distortions in the image are due to the fact that the homogeneity of the main magnetic field (B$_0$) is disturbed by strong changes in magnetic properties, such as the change from tissue to air. If our sequence is sensitive to these disturbances, our images will be distorted.
 
 ## Interpreting the BOLD Response
 
-### The images of 'activation' we see in the press aren't images of neurons firing
+**The images of 'activation' we see in the press aren't images of neurons firing**
 
-We often see blobs of 'activation' being reported, and the implicit idea is that this represents neurons firing in a living human brain. But the measurement that fMRI usually involves is much more indirect. First off, we are looking at a blood response. That is, our Blood-Oxygenation Level Dependent (BOLD) measurements reflect the ratio of non-paramagnetic oxygenated haemoglobin to paramagnetic deoxygenated haemoglobin. This ratio is altered by neural activity, surely, but it does so through a complex cascade of biological responses in several types of tissue -- not just the neurons, but also the astrocytes and cells in the vessel walls. Some important parts of this cascade are changes in cerebral blood volume (CBV), cerebral blood flow (CBF), and the rate of cerebral blood oxygen consumption (CMRO$_2$).
+We often see blobs of 'activation' being reported, and the implicit idea is that this represents neurons firing in a living human brain. But the measurement that fMRI usually involves is much more indirect. This means that any fMRI article that does human BOLD imaging and then concludes things about neural firing is crossing a line it shouldn't cross. There are several sub-caveats here:
 
-### The shape of the BOLD response differs a lot across voxels, individuals, and age
+### Caveat IV: Blood, not neurons. {#c4}
 
-Our standard GLM analysis assumes that BOLD responses follow a stereotypical haemodynamic response function shape.
+First off, we are looking at a blood response. That is, our Blood-Oxygenation Level Dependent (BOLD) measurements reflect the ratio of non-paramagnetic oxygenated haemoglobin to paramagnetic deoxygenated haemoglobin. This ratio is altered by neural activity, surely, but it does so through a complex cascade of biological responses in several types of tissue -- not just the neurons, but also the astrocytes and cells in the vessel walls. Some important parts of this cascade are changes in cerebral blood volume (CBV), cerebral blood flow (CBF), and the rate of cerebral blood oxygen consumption (CMRO$_2$). Even though perhaps we want to infer things about neural firing, we'll always be looking at this through a blood-lens.
+
+### Caveat V: Dissociations between BOLD and neuronal firing. {#c5}
+
+We want to be able to measure a BOLD response, and use it to infer something about neural activation, but this link is indirect. One repercussion of this indirectness is shown by examples from animal studies that conduct simultaneous BOLD and neural measurements. Several of these studies show that we can have strong BOLD responses even without neural firing. These non-neural BOLD responses are likely driven by task-related expectations that modulate the animal's arousal [@10.1038/nature07664]. The link between neural firing and BOLD is also influenced by dopaminergic stimulation [@10.1016/j.cub.2014.10.006]. This means that when we see a BOLD response, this may not be the clear evidence of neural activations that we would want it to be.
+
+### Caveat VI: Yellow-red blobs are statistics, not 'activation'. {#c6}
+
+A more trivial point, perhaps, but important nonetheless. The nice blobs we see in the newspaper indicating the 'love', 'jealousy', or 'political affiliation' region in the brain aren't images of _activation_. They are a value, often a T-statistic, that relates to the certainty we have when we conclude some difference between conditions exist. For example, that 'love' blob might reflect our confidence when we conclude that the BOLD response in this region is different when looking at photos of loved ones vs photos of people we don't know. We need to keep in mind that how to regard this result requires knowing more about 1. the experiment, and 2. the analysis that delivered this result. Remember, there are [lies, damned lies, and statistics](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics).
+
+### Caveat VII: the BOLD response is not the only functional contrast mechanism that we can use to measure brain activations. {#c7}
+
+The endogenous contrast agent that haemoglobin is, which makes BOLD imaging possible, is not the only possible contrast. There are actually quite a lot of other MR contrast mechanisms that also correlate with neuronal activation. These focus on CBV and/or CBF to provide time-varying signal fluctuations that we can relate to brain function. Depending on our scientific question, we may (have to) adopt these other contrast mechanisms. Examples of these used for very selective functional imaging are [vascular-space occupancy (VASO)](https://doi.org/10.1016/j.neuroimage.2016.11.039), or [arterial blood contrast (ABC)](https://doi.org/10.1002/hbm.26227).
+
+### Caveat VIII: Gradient-recalled echo imaging is very sensitive but less selective than other acquisitions. {#c8}
+
+The "standard" BOLD imaging technique reverses spins after excitation using a change in the magnetic field gradient. We then capture RF signals after they re-align to form an 'echo'. Hence the name gradient-recalled echo (GRE) or gradient echo (GE). An older alternative technique, devised by Erwin Hahn in 1949, is called spin echo (SE). In this scheme, a 180$\degree$ RF pulse is used to reflect the magnetic spins, so that the return to form an RF 'echo'. The time at which the echo happens is double that at which the 180$\degree$ RF pulse was applied. SE is used a lot in anatomical imaging in the form of turbo-spin-echo sequences, in which continuous 180$\degree$ RF pulse reflections are used to speed up acquisition. For functional MRI, SE is less sensitive but more selective than GRE. We can use it to focus more on effect originating from smaller vessels, whereas GRE is often biased by signals originating from larger vessels. [mri-questions on GRE vs SE](https://mriquestions.com/gre-vs-se.html)
+
+::: {.column-margin}
+![Spin-Echo animation from Wikipedia](https://mriquestions.com/uploads/3/4/5/7/34572113/_7041819_orig.gif){fig-alt="Spin-Echo animation"}
+:::
 
 
-## Statistical Inference
+### Caveat IX: The shape of the BOLD response differs a lot across voxels, individuals, and age. {#c9}
 
+Our standard GLM analysis assumes that BOLD responses follow a stereotypical haemodynamic response function (HRF) shape. This is not true. There are large difference in BOLD response (HRF) shape from measurement to measurement. Here are some important factors to keep in mind.
 
-##
+- voxels containing more and/or larger veins will have a stronger BOLD response with a slower rise time and a later peak [@10.1038/jcbfm.2011.57].
+- for ultra-high resolution fMRI, this means that the voxels closer to the pial surface have a 2-fold stronger signal than voxels closer to the white-matter gray-matter boundary [@10.1038/s41592-020-0941-6].
+- the original HRF shapes were derived from 1.5-Tesla measurements [@10.1523/jneurosci.16-13-04207.1996]. Present-day 7-Tesla measurements show a faster response because they inherently weigh signals from smaller veins more strongly, and these are faster to respond whenever neurons activate.
+- we only have good estimates of the HRF shape in primary brain regions, such as primary motor cortex or primary visual cortex. This is because only when we can provide an 'impulse' (a very strong and very brief stimulus) can we estimate the shape of the impulse-response to this input event. For many other brain regions we simply don't know how to activate neurons briefly and strongly, but for motor or visual cortex that can be done by finger-tapping or presenting a flickering checkerboard stimulus, respectively.
 
+## Analysis & Statistical Inference
+
+### Caveat X: our use of the GLM depends on an LTI assumption. {#c10}
+
+The use of the GLM depends on the assumption that the relation between the BOLD response and the thing of interest (neural responses) is a linear time-invariant (LTI) system. This means that doubling the strength of a neural signal will show a double amplitude response in the BOLD response. It also means that the response to a two-second event is equal to the sum of two one-second event responses, the second having been shifted by 1 second. Using these assumptions we can now use convolution with the impulse-response of the system (the HRF) to predict BOLD responses driven by specific events. Also, this means that we can gauge the strength of neural responses by looking at the $\beta$ weights that roll out of a GLM. It's important to realize that this is an _assumption_ that we cannot fully verify. It's clear that as a first pass it holds, though, but as opposed to simple electrical wirings, the complicated biological machinery driving the BOLD response is likely to show nonlinearities that break the LTI assumption. Just check out the examples above in Caveat @c5 to convince yourself that there are limits to the LTI assumption [@10.1038/nature07664].
+
+### Caveat XI: GLM statistics depend on specific assumptions. {#c11}
+
+The statistics we do on top of our GLMs assume independent, identically distributed samples - an assumption that is very common in more statistical applications. However, the noise that ends up as residuals actually has strong temporal autocorrelation. This means that the covariance structure of the noise doesn't follow an identity matrix, and that we should estimate this structure and use it to correct our statistics. If we do not take into account this correlational structure in our noise, we will overestimate the degrees of freedom that go into our T-statistic calculations, greatly inflating them and causing a lot of false positives. Similarly, cluster-based statistical procedures often use assumptions regarding the spatial autocorrelation of noise. If we assume such structure to be more narrow than it actually is, we run into problems [@10.1073/pnas.1602413113]. These problems, as in @c10, are that we will be too lenient and produce false-positive results.
 
 # Discussion
 
 
 
 
+### References
+
+::: {#refs}
+:::

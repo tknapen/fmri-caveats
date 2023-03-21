@@ -2,6 +2,7 @@
 title: "fMRI by caveat"
 author: "Tomas Knapen"
 toc: true
+toc-depth: 2
 number-sections: true
 highlight-style: pygments
 bibliography: lib/export_2023-3-16.bib
@@ -9,6 +10,10 @@ csl: templates/nature.csl
 format:
   html:
     code-fold: true
+    toc-location: left
+    toc: true
+    toc-depth: 2
+    number-sections: true
   pdf:
     geometry:
         - top=30mm

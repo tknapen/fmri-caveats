@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tomas Knapen">
+
+<title>fMRI by caveat</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+q { quotes: "“" "”" "‘" "’"; }
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="floating slimcontent">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract"><span class="toc-section-number">1</span>  Abstract</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="toc-section-number">2</span>  Introduction</a>
+  <ul class="collapse">
+  <li><a href="#goal-and-scope" id="toc-goal-and-scope" class="nav-link" data-scroll-target="#goal-and-scope"><span class="toc-section-number">2.1</span>  Goal and Scope</a></li>
+  <li><a href="#caveats-galore" id="toc-caveats-galore" class="nav-link" data-scroll-target="#caveats-galore"><span class="toc-section-number">2.2</span>  Caveats Galore</a></li>
+  </ul></li>
+  <li><a href="#caveats" id="toc-caveats" class="nav-link" data-scroll-target="#caveats"><span class="toc-section-number">3</span>  Caveats</a>
+  <ul class="collapse">
+  <li><a href="#imaging" id="toc-imaging" class="nav-link" data-scroll-target="#imaging"><span class="toc-section-number">3.1</span>  Imaging</a></li>
+  <li><a href="#interpreting-the-bold-response" id="toc-interpreting-the-bold-response" class="nav-link" data-scroll-target="#interpreting-the-bold-response"><span class="toc-section-number">3.2</span>  Interpreting the BOLD Response</a></li>
+  <li><a href="#analysis-statistical-inference" id="toc-analysis-statistical-inference" class="nav-link" data-scroll-target="#analysis-statistical-inference"><span class="toc-section-number">3.3</span>  Analysis &amp; Statistical Inference</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="toc-section-number">4</span>  Discussion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">5</span>  References</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">fMRI by caveat</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tomas Knapen </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="abstract" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Abstract</h1>
+<p><em>Imaging of human brain activations has revolutionized cognitve neuroscience, and fundamentally changed how the general public thinks about the mind. In recent years, the burgeoning growth of the field of functional magnetic resonance imaging has plateaued. The development of the field has not been gradual, but rather has been interpunctuated by sudden shifts in insight. These shifts have driven thinking and practices in the field forward. In many cases, these sudden shifts have been prompted by a realization that some caveat applies to the interpretation of results produced by current practices. I have found that when teaching fMRI these caveats provide a productive conceptual framework, that helps students understand the history of the field, but also its present limitations and promises. Therefore, this paper is structured as a list of caveats, ordered broadly according to both topic and historical order.</em></p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that this document doesn’t aim to provide a full introduction into neuroimaging or its analysis. If you’re interested in that, I recommend consulting the excellent <a href="https://textbook.nipraxis.org/intro.html">nipraxis</a> website, or the <a href="https://sites.google.com/site/fmridataanalysis/home">fmri handbook</a> by Russ Poldrack et al.</p>
+</div>
+</div>
+</section>
+<section id="introduction" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Introduction</h1>
+<section id="goal-and-scope" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="goal-and-scope"><span class="header-section-number">2.1</span> Goal and Scope</h2>
+<p>This document is intended as a corollary to a first-year graduate level introduction to neuroimaging in a cognitive neuroscience curriculum. Some caveats may also be applicable to other imaging modalities used in cognitive science, and perhaps other caveats apply in different fields also. Nonetheless, the strict focus here is on the use of fMRI to answer questions about the underpinnings of the mind in the brain.</p>
+</section>
+<section id="caveats-galore" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="caveats-galore"><span class="header-section-number">2.2</span> Caveats Galore</h2>
+<p>What is a caveat? One could say that it’s short for <q>caveat emptor</q>, a Latin phrase which means: <q>Buyer beware</q>. It refers to the principle that <q>the buyer alone is responsible for checking the quality and suitability of goods before a purchase is made</q>. Now, in everyday life we have legal consumer protection when we buy something. But in science, there is no such governmental oversight: we are the buyers of nature’s knowledge, and no guarantee is given.</p>
+<p>So, a caveat is <strong><q>a warning or proviso of specific stipulations, conditions, or limitations</q></strong>. As a scientific field, we’ve had to learn these conditions and limitations the hard way, by making mistakes. We can learn a lot about a field by going through the mistakes that the field has made - to quote Niels Bohr: <em><q>An expert is a person who has made all the mistakes that can be made in a very narrow field</q></em>. Thus, learning a field through all its past mistakes is a very efficient way of becoming an expert. It’s important to realize that when we explicitly identify these mistakes we don’t do this to make fun of past scientists’ stupidity. Rather, by focusing on mistakes and the caveats they’ve become we learn not just the field’s subject matter, but also how it has tended to evolve as a collective human enterprise. This may allows us to learn strategies that help us avoid future mistakes.</p>
+<p>In the end, our data are a bucket of noise from all manner of different sources and we, as a field, have tried to build a house of cards of assumptions and processing strategies to make sense of it. The inferences we can make in this endeavour are always going to be tenuous but just the idea of being able to peer inside someone’s living brain and somehow track the brain’s activations that give rise to our cognitive processes is miraculous, as is MR imaging itself.</p>
+</section>
+</section>
+<section id="caveats" class="level1 page-columns page-full" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Caveats</h1>
+<section id="imaging" class="level2 page-columns page-full" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="imaging"><span class="header-section-number">3.1</span> Imaging</h2>
+<p>Regardless of caveats, a great resource for the concepts underpinning MR imaging is the <a href="https://mriquestions.com">mriquestions website</a>.</p>
+<section id="sec-c1" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="sec-c1"><span class="header-section-number">3.1.1</span> Caveat I: MR Images are very different from photographs</h3>
+<p>The universe doesn’t care about us. It certainly hasn’t structured itself such as to make sure that we can look inside living human brains using giant magnets. MRI, like most if not all measurements we do in science, relies on serendipitously discovered principles and often very contrived methods. We’ll take what we can get in order to learn about the things we’re interested in. Just as a left-field example, <a href="https://www.economist.com/science-and-technology/2017/09/30/counting-raindrops-using-mobile-phone-towers">we can measure precipitation using cell phone towers</a> - the cell phone towers definitely weren’t put there to measure precipitation. Similary for MRI, it’s important to realize that our ability to image the human brain without opening it up rests on our understanding of electromagnetic physical principles and our electrical engineering prowess. This ability is the result of decades of development by some of the smartest people in the world, and the MRI machine is a marvel of our understanding and manipulation of super-low-level physical properties of matter. So, it’s important to realize that the brain images from an MR scanner aren’t like the pictures taken by your phone, where photons fall on detectors to create an image similar to how our own retinae detect photons. Rather, MRI images are the result of an intricate process of construction through an thorough manipulation of low-level physical things.</p>
+</section>
+<section id="sec-c2" class="level3 page-columns page-full" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="sec-c2"><span class="header-section-number">3.1.2</span> Caveat II: The scanner can image many things. BOLD is just one of those things.</h3>
+<p>Depending on how we use the scanner, or the <q>sequence</q> that it runs, we get out different kinds of data. These can be images, but can also be NMR spectra that relate to the chemical composition of the thing in the magnet. If the outcome is an image, it can take many different forms. Depending on specific settings such as the repetition time, the echo time, and how we <q>read out</q> the image, images can be sensitive to iron content, tissue perfusion, blood flow direction, nerve fiber bundle orientation, and many more things. In fMRI, we usually use a specific contrast called a T2* contrast, which is sensitive to – among other things – the level of oxygenation of the haemoglobin in the blood. But a T2* contrast image, like the T1-weighted image we usually associate with anatomical brain scans, is just an image of some complex set of properties of the brain’s tissues. This means we can also make anatomical images using the same contrast:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><video src="figs/T2star_axial.mov" class="img-fluid" alt="T2* image" controls=""><a href="figs/T2star_axial.mov">Video</a></video></p>
+<p></p><figcaption class="figure-caption">T2* anatomical image</figcaption><p></p>
+</figure>
+</div>
+</div></div></section>
+<section id="sec-c3" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="sec-c3"><span class="header-section-number">3.1.3</span> Caveat III: Things in an MR image may not be where they appear to be.</h3>
+<p>The scanner constructs the image by playing around with magnetic moments and recording radio frequency signals; <em>construction</em> being the crucial term here, as outlined in Caveat I. Again depending on how the scanner constructs the image, it may be a faithful representation of the spatial relations inside the head, or the image may be (severely) warped or distorted. These distortions in the image are due to the fact that the homogeneity of the main magnetic field (B<span class="math inline">\(_0\)</span>) is disturbed by strong changes in magnetic properties, such as the change from tissue to air. If our sequence is sensitive to these disturbances, our images will be distorted.</p>
+</section>
+</section>
+<section id="interpreting-the-bold-response" class="level2 page-columns page-full" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="interpreting-the-bold-response"><span class="header-section-number">3.2</span> Interpreting the BOLD Response</h2>
+<p><strong>The images of <q>activation</q> we see in the press aren’t images of neurons firing</strong></p>
+<p>We often see blobs of <q>activation</q> being reported, and the implicit idea is that this represents neurons firing in a living human brain. But the measurement that fMRI usually involves is much more indirect. This means that any fMRI article that does human BOLD imaging and then concludes things about neural firing is crossing a line it shouldn’t cross. There are several sub-caveats here:</p>
+<section id="sec-c4" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="sec-c4"><span class="header-section-number">3.2.1</span> Caveat IV: Blood, not neurons.</h3>
+<p>First off, we are looking at a blood response. That is, our Blood-Oxygenation Level Dependent (BOLD) measurements reflect the ratio of non-paramagnetic oxygenated haemoglobin to paramagnetic deoxygenated haemoglobin. This ratio is altered by neural activity, surely, but it does so through a complex cascade of biological responses in several types of tissue – not just the neurons, but also the astrocytes and cells in the vessel walls. Some important parts of this cascade are changes in cerebral blood volume (CBV), cerebral blood flow (CBF), and the rate of cerebral blood oxygen consumption (CMRO<span class="math inline">\(_2\)</span>). Even though perhaps we want to infer things about neural firing, we’ll always be looking at this through a blood-lens.</p>
+</section>
+<section id="sec-c5" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="sec-c5"><span class="header-section-number">3.2.2</span> Caveat V: Dissociations between BOLD and neuronal firing.</h3>
+<p>We want to be able to measure a BOLD response, and use it to infer something about neural activation, but this link is indirect. One repercussion of this indirectness is shown by examples from animal studies that conduct simultaneous BOLD and neural measurements. Several of these studies show that we can have strong BOLD responses even without neural firing. These non-neural BOLD responses are likely driven by task-related expectations that modulate the animal’s arousal<span class="citation" data-cites="10.1038/nature07664"><sup><a href="#ref-10.1038/nature07664" role="doc-biblioref">1</a></sup></span>. The link between neural firing and BOLD is also influenced by dopaminergic stimulation<span class="citation" data-cites="10.1016/j.cub.2014.10.006"><sup><a href="#ref-10.1016/j.cub.2014.10.006" role="doc-biblioref">2</a></sup></span>. This means that when we see a BOLD response, this may not be the clear evidence of neural activations that we would want it to be.</p>
+</section>
+<section id="sec-c6" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="sec-c6"><span class="header-section-number">3.2.3</span> Caveat VI: Yellow-red blobs are statistics, not <q>activation</q>.</h3>
+<p>A more trivial point, perhaps, but important nonetheless. The nice blobs we see in the newspaper indicating the <q>love</q>, <q>jealousy</q>, or <q>political affiliation</q> region in the brain aren’t images of <em>activation</em>. They are a value, often a T-statistic, that relates to the certainty we have when we conclude some difference between conditions exist. For example, that <q>love</q> blob might reflect our confidence when we conclude that the BOLD response in this region is different when looking at photos of loved ones vs photos of people we don’t know (usually this is a <q>baseline</q> with similar low-level stimulus features, faces, in this case). We need to keep in mind that how to interpret this result requires knowing more about 1. the experiment, and 2. the analysis that delivered this result. Remember, there are <a href="https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics">lies, damned lies, and statistics</a>.</p>
+</section>
+<section id="sec-c7" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="sec-c7"><span class="header-section-number">3.2.4</span> Caveat VII: the BOLD response is not the only functional contrast mechanism that we can use to measure brain activations.</h3>
+<p>The endogenous contrast agent that haemoglobin is, which makes BOLD imaging possible, is not the only possible contrast. There are actually quite a lot of other MR contrast mechanisms that also correlate with neuronal activation. These focus on CBV and/or CBF to provide time-varying signal fluctuations that we can relate to brain function. Depending on our scientific question, we may (have to) adopt these other contrast mechanisms. Examples of these used for very selective functional imaging are <a href="https://doi.org/10.1016/j.neuroimage.2016.11.039">vascular-space occupancy (VASO)</a>, or <a href="https://doi.org/10.1002/hbm.26227">arterial blood contrast (ABC)</a>.</p>
+</section>
+<section id="sec-c8" class="level3 page-columns page-full" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="sec-c8"><span class="header-section-number">3.2.5</span> Caveat VIII: Gradient-recalled echo imaging is very sensitive but less selective than other acquisitions.</h3>
+<p>The <q>standard</q> BOLD imaging technique reverses spins after excitation using a change in the magnetic field gradient. We then capture RF signals after they re-align to form an <q>echo</q>. Hence the name gradient-recalled echo (GRE) or gradient echo (GE). An older alternative technique, devised by Erwin Hahn in 1949, is called spin echo (SE). In this scheme, a 180<span class="math inline">\(^{\circ}\)</span> RF pulse is used to reflect the magnetic spins, so that the return to form an RF <q>echo</q>. The time at which the echo happens is double that at which the 180<span class="math inline">\(^{\circ}\)</span> RF pulse was applied. SE is used a lot in anatomical imaging in the form of turbo-spin-echo sequences, in which continuous 180<span class="math inline">\(^{\circ}\)</span> RF pulse reflections are used to speed up acquisition. For functional MRI, SE is less sensitive but more selective than GRE. We can use it to focus more on effect originating from smaller vessels, whereas GRE is often biased by signals originating from larger vessels. <a href="https://mriquestions.com/gre-vs-se.html">mri-questions on GRE vs SE</a></p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><video src="figs/_7041819_orig.mov" class="img-fluid" alt="Spin-Echo animation" controls=""><a href="figs/_7041819_orig.mov">Video</a></video></p>
+<p></p><figcaption class="figure-caption">Spin-Echo animation from Wikipedia</figcaption><p></p>
+</figure>
+</div>
+</div></div></section>
+<section id="sec-c9" class="level3" data-number="3.2.6">
+<h3 data-number="3.2.6" class="anchored" data-anchor-id="sec-c9"><span class="header-section-number">3.2.6</span> Caveat IX: The shape of the Haemodynamic Response Function differs a lot across voxels, individuals, and age.</h3>
+<p>Our standard GLM analysis assumes that BOLD responses follow a stereotypical haemodynamic response function (HRF) shape. This is not true. There are large difference in BOLD response (HRF) shape from measurement to measurement. Here are some important factors to keep in mind.</p>
+<ul>
+<li>voxels containing more and/or larger veins will have a stronger BOLD response with a slower rise time and a later peak<span class="citation" data-cites="10.1038/jcbfm.2011.57 10.1038/s41592-020-0941-6"><sup><a href="#ref-10.1038/jcbfm.2011.57" role="doc-biblioref">3</a>,<a href="#ref-10.1038/s41592-020-0941-6" role="doc-biblioref">4</a></sup></span>.</li>
+<li>for ultra-high resolution fMRI, this means that the voxels closer to the pial surface have a 2-fold stronger signal than voxels closer to the white-matter gray-matter boundary<span class="citation" data-cites="10.1016/j.neuroimage.2020.117683"><sup><a href="#ref-10.1016/j.neuroimage.2020.117683" role="doc-biblioref">5</a></sup></span>.</li>
+<li>the original HRF shapes were derived from 1.5-Tesla measurements<span class="citation" data-cites="10.1523/jneurosci.16-13-04207.1996"><sup><a href="#ref-10.1523/jneurosci.16-13-04207.1996" role="doc-biblioref">6</a></sup></span>. Present-day 7-Tesla measurements show a faster response because they inherently weigh signals from smaller veins more strongly, and these are faster to respond whenever neurons activate.</li>
+<li>we only have good estimates of the HRF shape in primary brain regions, such as primary motor cortex or primary visual cortex. This is because only when we can provide an <q>impulse</q> (a very strong and very brief stimulus) can we estimate the shape of the impulse-response to this input event. For many other brain regions we simply don’t know how to activate neurons briefly and strongly, but for motor or visual cortex that can be done by finger-tapping or presenting a flickering checkerboard stimulus, respectively.</li>
+</ul>
+</section>
+</section>
+<section id="analysis-statistical-inference" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="analysis-statistical-inference"><span class="header-section-number">3.3</span> Analysis &amp; Statistical Inference</h2>
+<section id="sec-c10" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="sec-c10"><span class="header-section-number">3.3.1</span> Caveat X: our use of the GLM depends on an LTI assumption.</h3>
+<p>The use of the GLM depends on the assumption that the relation between the BOLD response and the thing of interest (neural responses) is a linear time-invariant (LTI) system. This means that doubling the strength of a neural signal will show a double amplitude response in the BOLD response. It also means that the response to a two-second event is equal to the sum of two one-second event responses, the second having been shifted by 1 second. These two represent the linear (mulitiplication and addition) part of the term. Lastly, we assume that these relations are stable over time (time-invariant). Using these assumptions we can now use convolution with the impulse-response of the system (the HRF) to predict BOLD responses driven by specific events. Also, this means that we can gauge the strength of neural responses by looking at the <span class="math inline">\(\beta\)</span> weights that roll out of a GLM. It’s important to realize that seeing the relation between neural activations and BOLD response as an LTI is an <em>assumption</em> that we cannot fully verify. It’s clear that as a first pass it holds<span class="citation" data-cites="10.1523/jneurosci.16-13-04207.1996"><sup><a href="#ref-10.1523/jneurosci.16-13-04207.1996" role="doc-biblioref">6</a></sup></span>, though. However, as opposed to simple electrical wirings, the complicated biological machinery driving the BOLD response is likely to show nonlinearities that break the LTI assumption. Just check out the examples above in Caveat <a href="#sec-c5">Section&nbsp;3.2.2</a> to convince yourself that there are limits to the LTI assumption<span class="citation" data-cites="10.1038/nature07664"><sup><a href="#ref-10.1038/nature07664" role="doc-biblioref">1</a></sup></span>.</p>
+<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title="Convolution"><source src="figs/conv_animation.mp4"></video></div>
+</section>
+<section id="sec-c11" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="sec-c11"><span class="header-section-number">3.3.2</span> Caveat XI: GLM statistics depend on specific assumptions, that are not always met.</h3>
+<p>The statistics we do on top of our GLMs assume independent, identically distributed samples - an assumption that is very common in more statistical applications. However, the noise that ends up as residuals actually has strong autocorrelations, spatial and temporal.</p>
+<p>In the temporal case, this means that the covariance structure of the noise doesn’t follow an identity matrix, and that we should estimate this structure and use it to correct our statistics (i.e.&nbsp;move from an <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares">ordinary least squares</a> approach to a <a href="https://en.wikipedia.org/wiki/Generalized_least_squares">generalized least squares</a> approach). If we do not take into account this correlational structure in our noise, we will overestimate the degrees of freedom that go into our T-statistic calculations, greatly inflating them and causing a lot of false positives.</p>
+<p>Similarly, cluster-based statistical procedures often use assumptions regarding the spatial autocorrelation of noise. If we assume such structure to be more narrow than it actually is, we run into problems<span class="citation" data-cites="10.1073/pnas.1602413113"><sup><a href="#ref-10.1073/pnas.1602413113" role="doc-biblioref">7</a></sup></span>. These problems, as in <a href="#sec-c10">Section&nbsp;3.3.1</a>, are that we will be too lenient and produce false-positive results.</p>
+</section>
+<section id="sec-c12" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="sec-c12"><span class="header-section-number">3.3.3</span> Caveat XII: When performing a decoding analysis, you’re leaving the hard work to a black-box algorithm.</h3>
+<p>Decoding from a pattern of BOLD responses across voxels which stimulus is shown or experienced by a participant is a sort of <q>mind reading</q>. There are a lot of papers that perform this type of analysis and there are some awesome findings among them. But it’s important to think deeply about what we’re doing here. As argued in this nice opinion paper<span class="citation" data-cites="10.1016/j.tics.2015.07.005"><sup><a href="#ref-10.1016/j.tics.2015.07.005" role="doc-biblioref">8</a></sup></span>, having a principled model of how the brain encodes information and computes on it is much more valuable than leaving this important question unanswered. For example, it’s quite telling that the earliest work on fMRI <q>decoding</q> was based on visual orientation processing<span class="citation" data-cites="10.1038/nn1444"><sup><a href="#ref-10.1038/nn1444" role="doc-biblioref">9</a></sup></span>, but that the neural and sampling mechanisms that allow us to perform orientation decoding remain under dispute<span class="citation" data-cites="10.1146/annurev-vision-093019-111124"><sup><a href="#ref-10.1146/annurev-vision-093019-111124" role="doc-biblioref">10</a></sup></span>.</p>
+</section>
+<section id="sec-c13" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="sec-c13"><span class="header-section-number">3.3.4</span> Caveat XIII: Volumetric atlases and standard spaces make sense only for the subcortex.</h3>
+<p>We all have unique brains, and although their organization is stable at the lower levels of organization, it becomes idiosyncratic very quickly. Especially using volumetric alignment to an (MNI) atlas for cerebral cortex is going to be woefully inadequate in overlaying the detailed functional architecture across individuals. This type of procedure is much better suited for across-subject registration of the subcortex, which has 1. much clearer anatomical areal boundaries in (especially multi-modal anatomical MR images), and 2. a much more stable anatomical organization due to its phylogenetic age.</p>
+</section>
+<section id="sec-c14" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="sec-c14"><span class="header-section-number">3.3.5</span> Caveat XIV: Surface-based processing is more valid for the cerebral cortex, but also harder to pull off.</h3>
+<p>Using surface-based alignment to a standard surface is better than volumetric alignment to a standard <q>atlas</q> for the cerebral cortex, because it honors its intrinsic architecture. But: the automated segmentation of anatomical images often goes wrong. Because the image value of large veins and gray matter is very similar in standard T1w anatomical images, this means that automated segmentation has a very hard time telling them apart. This results in major problems, where veins and other non-gray-matter anatomical structures are incorporated into the gray matter <q>ribbon</q>. It helps to add extra images with different MR contrasts such as T2 or FLAIR, but still: the gold standard is manual segmentation, but this can take multiple hours for a single brain.</p>
+</section>
+<section id="sec-c15" class="level3" data-number="3.3.6">
+<h3 data-number="3.3.6" class="anchored" data-anchor-id="sec-c15"><span class="header-section-number">3.3.6</span> Caveat XV: Averaging across subjects is, in the end, impossible.</h3>
+<p>After correct segmentation, surface-based alignment based on cortical folding is passable. But still leaves a lot of functional organization widely variable across individuals. The most sophisticated methods of inter-subject alignment for the cerebral cortex does use these gray-matter surfaces<span class="citation" data-cites="10.1038/nature18933"><sup><a href="#ref-10.1038/nature18933" role="doc-biblioref">11</a></sup></span>. These methods do a reasonable job but need multiple sessions of anatomical, diffusion, and functional (task &amp; resting state) fMRI to feed into neural network-based areal designations. Anything less than that shoehorns an individual’s data into a standard brain or <q>atlas</q> with too little information to fly on.</p>
+</section>
+</section>
+</section>
+<section id="discussion" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Discussion</h1>
+<section id="sec-c16" class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="sec-c16"><span class="header-section-number">4.0.1</span> Meta-Caveat: Don’t believe the hype – there’s always a caveat.</h3>
+<p><em>If it sounds too good to be true, it probably is.</em></p>
+<p>The field has progressed through a series of hypes, from decoding<span class="citation" data-cites="10.1038/nn1444"><sup><a href="#ref-10.1038/nn1444" role="doc-biblioref">9</a></sup></span>, to <q>dynamic causal modelling</q><span class="citation" data-cites="10.1016/s1053-811900202-7"><sup><a href="#ref-10.1016/s1053-811900202-7" role="doc-biblioref">12</a></sup></span>, to resting-state fMRI<span class="citation" data-cites="10.1038/nn1616"><sup><a href="#ref-10.1038/nn1616" role="doc-biblioref">13</a></sup></span>, to <q>laminar</q> fMRI<span class="citation" data-cites="10.1016/j.neuroimage.2017.01.028"><sup><a href="#ref-10.1016/j.neuroimage.2017.01.028" role="doc-biblioref">14</a></sup></span>. In every one of these hypes there is a nugget of value, and it’s become a hype because we as a field are blind to some hitherto unknown caveat. It’s our task to value that nugget without being blinded by it, so that we can beat the hype.</p>
+</section>
+</section>
+<section id="references" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> References</h1>
+<div id="refs" class="references csl-bib-body" data-line-spacing="2" role="doc-bibliography">
+<div id="ref-10.1038/nature07664" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Sirotin, Y. B. &amp; Das, A. <a href="https://doi.org/10.1038/nature07664"><span class="nocase">Anticipatory haemodynamic signals in sensory cortex not predicted by local neuronal activity</span></a>. <em>Nature</em> <strong>457</strong>, 475 479 (2009).</div>
+</div>
+<div id="ref-10.1016/j.cub.2014.10.006" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Zaldivar, D., Rauch, A., Whittingstall, K., Logothetis, N. K. &amp; Goense, J. <a href="https://doi.org/10.1016/j.cub.2014.10.006"><span class="nocase">Dopamine-Induced Dissociation of BOLD and Neural Activity in Macaque Visual Cortex</span></a>. <em>Current Biology</em> <strong>24</strong>, 2805 2811 (2014).</div>
+</div>
+<div id="ref-10.1038/jcbfm.2011.57" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Siero, J. C. W., Petridou, N., Hoogduin, H., Luijten, P. R. &amp; Ramsey, N. F. <a href="https://doi.org/10.1038/jcbfm.2011.57"><span class="nocase">Cortical depth-dependent temporal dynamics of the BOLD response in the human brain.</span></a> <em>Journal of cerebral blood flow and metabolism : official journal of the International Society of Cerebral Blood Flow and Metabolism</em> <strong>31</strong>, 1999 2008 (2011-10).</div>
+</div>
+<div id="ref-10.1038/s41592-020-0941-6" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Kay, K., Jamison, K. W., Zhang, R.-Y. &amp; Uğurbil, K. <a href="https://doi.org/10.1038/s41592-020-0941-6"><span class="nocase">A temporal decomposition method for identifying venous effects in task-based fMRI</span></a>. <em>Nature Methods</em> <strong>17</strong>, 1033–1039 (2020).</div>
+</div>
+<div id="ref-10.1016/j.neuroimage.2020.117683" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Hollander, G. de, Zwaag, W. van der, Qian, C., Zhang, P. &amp; Knapen, T. <a href="https://doi.org/10.1016/j.neuroimage.2020.117683"><span class="nocase">Ultra-high field fMRI reveals origins of feedforward and feedback activity within laminae of human ocular dominance columns</span></a>. <em>NeuroImage</em> <strong>228</strong>, 117683 (2021).</div>
+</div>
+<div id="ref-10.1523/jneurosci.16-13-04207.1996" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Boynton, G. M., Engel, S. A., Glover, G. H. &amp; Heeger, D. J. <a href="https://doi.org/10.1523/jneurosci.16-13-04207.1996"><span class="nocase">Linear Systems Analysis of Functional Magnetic Resonance Imaging in Human V1</span></a>. <em>Journal of Neuroscience</em> <strong>16</strong>, 4207–4221 (1996).</div>
+</div>
+<div id="ref-10.1073/pnas.1602413113" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Eklund, A., Nichols, T. E. &amp; Knutsson, H. <a href="https://doi.org/10.1073/pnas.1602413113"><span class="nocase">Cluster failure: Why fMRI inferences for spatial extent have inflated false-positive rates</span></a>. <em>Proceedings of the National Academy of Sciences</em> <strong>113</strong>, 7900–7905 (2016).</div>
+</div>
+<div id="ref-10.1016/j.tics.2015.07.005" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Naselaris, T. &amp; Kay, K. N. <a href="https://doi.org/10.1016/j.tics.2015.07.005"><span class="nocase">Resolving Ambiguities of MVPA Using Explicit Models of Representation.</span></a> <em>Trends in cognitive sciences</em> <strong>19</strong>, 551 554 (2015-10).</div>
+</div>
+<div id="ref-10.1038/nn1444" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Kamitani, Y. &amp; Tong, F. <a href="https://doi.org/10.1038/nn1444"><span class="nocase">Decoding the visual and subjective contents of the human brain.</span></a> <em>Nature Neuroscience</em> <strong>8</strong>, 679 685 (2005-05).</div>
+</div>
+<div id="ref-10.1146/annurev-vision-093019-111124" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Gardner, J. L. &amp; Merriam, E. P. <a href="https://doi.org/10.1146/annurev-vision-093019-111124"><span class="nocase">Population Models, Not Analyses, of Human Neuroscience Measurements</span></a>. <em>Annual Review of Vision Science</em> <strong>7</strong>, 1–31 (2021).</div>
+</div>
+<div id="ref-10.1038/nature18933" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Glasser, M. F. <em>et al.</em> <a href="https://doi.org/10.1038/nature18933"><span class="nocase">A multi-modal parcellation of human cerebral cortex</span></a>. <em>Nature</em> <strong>536</strong>, 171–178 (2016).</div>
+</div>
+<div id="ref-10.1016/s1053-811900202-7" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Friston, K. J., Harrison, L. M., Harrison, L. &amp; Penny, W. <a href="https://doi.org/10.1016/s1053-8119(03)00202-7"><span class="nocase">Dynamic causal modelling</span></a>. <em>NeuroImage</em> <strong>19</strong>, 1273 1302 (2003-08).</div>
+</div>
+<div id="ref-10.1038/nn1616" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Fox, M. D., Snyder, A. Z., Zacks, J. M. &amp; Raichle, M. E. <a href="https://doi.org/10.1038/nn1616"><span class="nocase">Coherent spontaneous activity accounts for trial-to-trial variability in human evoked brain responses.</span></a> <em>Nature Neuroscience</em> <strong>9</strong>, 23 25 (2006-01).</div>
+</div>
+<div id="ref-10.1016/j.neuroimage.2017.01.028" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Dumoulin, S. O., Fracasso, A., Zwaag, W. van der, Siero, J. C. W. &amp; Petridou, N. <a href="https://doi.org/10.1016/j.neuroimage.2017.01.028"><span class="nocase">Ultra-high field MRI: Advancing systems neuroscience towards mesoscopic human brain function.</span></a> <em>NeuroImage</em> <strong>168</strong>, 345 357 (2017).</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<script>videojs(video_shortcode_videojs_video1);</script>
+
+
+
+</body></html>

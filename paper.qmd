@@ -41,6 +41,8 @@ What is a caveat? One could say that it's short for "caveat emptor", a Latin phr
 
 So, a caveat is **"a warning or proviso of specific stipulations, conditions, or limitations"**. As a scientific field, we've had to learn these conditions and limitations the hard way, by making mistakes. We can learn a lot about a field by going through the mistakes that the field has made - to quote Niels Bohr: _"An expert is a person who has made all the mistakes that can be made in a very narrow field"_. Thus, learning a field through all its past mistakes is a very efficient way of becoming an expert. It's important to realize that when we explicitly identify these mistakes we don't do this to make fun of past scientists' stupidity. Rather, by focusing on mistakes and the caveats they've become we learn not just the field's subject matter, but also how it has tended to evolve as a collective human enterprise. This may allows us to learn strategies that help us avoid future mistakes.
 
+In the end, our data are a bucket of noise from all manner of different sources and we, as a field, have tried to build a house of cards of assumptions and processing strategies to make sense of it. The inferences we can make in this endeavour are always going to be tenuous but just the idea of being able to peer inside someone's living brain and somehow track the brain's activations that give rise to our cognitive processes is miraculous, as is MR imaging itself.
+
 # Caveats
 
 ## Imaging
@@ -55,13 +57,10 @@ The universe doesn't care about us. It certainly hasn't structured itself such a
 
 Depending on how we use the scanner, or the 'sequence' that it runs, we get out different kinds of data. These can be images, but can also be NMR spectra that relate to the chemical composition of the thing in the magnet. If the outcome is an image, it can take many different forms. Depending on specific settings such as the repetition time, the echo time, and how we 'read out' the image, images can be sensitive to iron content, tissue perfusion, blood flow direction, nerve fiber bundle orientation, and many more things. In fMRI, we usually use a specific contrast called a T2* contrast, which is sensitive to -- among other things -- the level of oxygenation of the haemoglobin in the blood. But a T2* contrast image, like the T1-weighted image we usually associate with anatomical brain scans, is just an image of some complex set of properties of the brain's tissues. This means we can also make anatomical images using the same contrast:
 
-{{< video figs/T2star_axial.mov
-title="a high-resolution T2*-weighted anatomical scan"
-loop=true
-width="400"
-height="400"
-align="right"
->}}
+::: {.column-margin}
+![T2* anatomical image](figs/T2star_axial.mov){fig-alt="T2* image"}
+:::
+
 
 ### Caveat III: Things in an MR image may not be where they appear to be. {#sec-c3}
 
@@ -94,7 +93,7 @@ The endogenous contrast agent that haemoglobin is, which makes BOLD imaging poss
 The "standard" BOLD imaging technique reverses spins after excitation using a change in the magnetic field gradient. We then capture RF signals after they re-align to form an 'echo'. Hence the name gradient-recalled echo (GRE) or gradient echo (GE). An older alternative technique, devised by Erwin Hahn in 1949, is called spin echo (SE). In this scheme, a 180$^{\circ}$ RF pulse is used to reflect the magnetic spins, so that the return to form an RF 'echo'. The time at which the echo happens is double that at which the 180$^{\circ}$ RF pulse was applied. SE is used a lot in anatomical imaging in the form of turbo-spin-echo sequences, in which continuous 180$^{\circ}$ RF pulse reflections are used to speed up acquisition. For functional MRI, SE is less sensitive but more selective than GRE. We can use it to focus more on effect originating from smaller vessels, whereas GRE is often biased by signals originating from larger vessels. [mri-questions on GRE vs SE](https://mriquestions.com/gre-vs-se.html)
 
 ::: {.column-margin}
-![Spin-Echo animation from Wikipedia](figs/_7041819_orig.gif){fig-alt="Spin-Echo animation"}
+![Spin-Echo animation from Wikipedia](figs/_7041819_orig.mov){fig-alt="Spin-Echo animation"}
 :::
 
 ### Caveat IX: The shape of the Haemodynamic Response Function differs a lot across voxels, individuals, and age. {#sec-c9}
@@ -112,6 +111,11 @@ Our standard GLM analysis assumes that BOLD responses follow a stereotypical hae
 
 The use of the GLM depends on the assumption that the relation between the BOLD response and the thing of interest (neural responses) is a linear time-invariant (LTI) system. This means that doubling the strength of a neural signal will show a double amplitude response in the BOLD response. It also means that the response to a two-second event is equal to the sum of two one-second event responses, the second having been shifted by 1 second. These two represent the linear (mulitiplication and addition) part of the term. Lastly, we assume that these relations are stable over time (time-invariant). Using these assumptions we can now use convolution with the impulse-response of the system (the HRF) to predict BOLD responses driven by specific events. Also, this means that we can gauge the strength of neural responses by looking at the $\beta$ weights that roll out of a GLM. It's important to realize that seeing the relation between neural activations and BOLD response as an LTI is an _assumption_ that we cannot fully verify. It's clear that as a first pass it holds[@10.1523/jneurosci.16-13-04207.1996], though. However, as opposed to simple electrical wirings, the complicated biological machinery driving the BOLD response is likely to show nonlinearities that break the LTI assumption. Just check out the examples above in Caveat @sec-c5 to convince yourself that there are limits to the LTI assumption [@10.1038/nature07664].
 
+{{< video figs/conv_animation.mp4
+title="Convolution"
+loop=true
+>}}
+
 ### Caveat XI: GLM statistics depend on specific assumptions, that are not always met. {#sec-c11}
 
 The statistics we do on top of our GLMs assume independent, identically distributed samples - an assumption that is very common in more statistical applications. However, the noise that ends up as residuals actually has strong autocorrelations, spatial and temporal.
@@ -122,14 +126,30 @@ Similarly, cluster-based statistical procedures often use assumptions regarding 
 
 ### Caveat XII: When performing a decoding analysis, you're leaving the hard work to a black-box algorithm. {#sec-c12}
 
-Decoding from a pattern of BOLD responses across voxels which stimulus is shown or experienced by a participant is a sort of 'mind reading'. There are a lot of papers that perform this type of analysis and there are some awesome findings among them. But it's important to think deeply about what we're doing here. As argued in this nice opinion paper[@10.1016/j.tics.2015.07.005], leaving the inferential ....
+Decoding from a pattern of BOLD responses across voxels which stimulus is shown or experienced by a participant is a sort of 'mind reading'. There are a lot of papers that perform this type of analysis and there are some awesome findings among them. But it's important to think deeply about what we're doing here. As argued in this nice opinion paper[@10.1016/j.tics.2015.07.005], having a principled model of how the brain encodes information and computes on it is much more valuable than leaving this important question unanswered. For example, it's quite telling that the earliest work on fMRI 'decoding' was based on visual orientation processing [@10.1038/nn1444], but that the neural and sampling mechanisms that allow us to perform orientation decoding remain under dispute[@10.1146/annurev-vision-093019-111124].
+
+### Caveat XIII: Volumetric atlases and standard spaces make sense only for the subcortex. {#sec-c13}
+
+We all have unique brains, and although their organization is stable at the lower levels of organization, it becomes idiosyncratic very quickly. Especially using volumetric alignment to an (MNI) atlas for cerebral cortex is going to be woefully inadequate in overlaying the detailed functional architecture across individuals. This type of procedure is much better suited for across-subject registration of the subcortex, which has 1. much clearer anatomical areal boundaries in (especially multi-modal anatomical MR images), and 2. a much more stable anatomical organization due to its phylogenetic age.
+
+### Caveat XIV: Surface-based processing is more valid for the cerebral cortex, but also harder to pull off. {#sec-c14}
+
+Using surface-based alignment to a standard surface is better than volumetric alignment to a standard 'atlas' for the cerebral cortex, because it honors its intrinsic architecture. But: the automated segmentation of anatomical images often goes wrong. Because the image value of large veins and gray matter is very similar in standard T1w anatomical images, this means that automated segmentation has a very hard time telling them apart. This results in major problems, where veins and other non-gray-matter anatomical structures are incorporated into the gray matter "ribbon". It helps to add extra images with different MR contrasts such as T2 or FLAIR, but still: the gold standard is manual segmentation, but this can take multiple hours for a single brain.
+
+### Caveat XV: Averaging across subjects is, in the end, impossible. {#sec-c15}
+
+After correct segmentation, surface-based alignment based on cortical folding is passable. But still leaves a lot of functional organization widely variable across individuals. The most sophisticated methods of inter-subject alignment for the cerebral cortex does use these gray-matter surfaces [@10.1038/nature18933]. These methods do a reasonable job but need multiple sessions of anatomical, diffusion, and functional (task & resting state) fMRI to feed into neural network-based areal designations. Anything less than that shoehorns an individual's data into a standard brain or 'atlas' with too little information to fly on.
+
 
 # Discussion
 
+### Meta-Caveat: Don't believe the hype -- there's always a caveat. {#sec-c16}
 
+_If it sounds too good to be true, it probably is._
 
+The field has progressed through a series of hypes, from decoding[@10.1038/nn1444], to 'dynamic causal modelling'[@10.1016/s1053-811900202-7], to resting-state fMRI[@10.1038/nn1616], to 'laminar' fMRI[@10.1016/j.neuroimage.2017.01.028]. In every one of these hypes there is a nugget of value, and it's become a hype because we as a field are blind to some hitherto unknown caveat. It's our task to value that nugget without being blinded by it, so that we can beat the hype.
 
-### References
+# References
 
 ::: {#refs}
 :::
